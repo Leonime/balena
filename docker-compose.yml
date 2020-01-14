@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   pihole:
-    build: ./pihole
+    build: ./balena-pihole/pihole
     privileged: true
     volumes:
       - 'pihole_config:/etc/pihole'
@@ -13,7 +13,7 @@ services:
     network_mode: host
   # set pihole DNS1 and DNS2 service variables to 127.0.0.1#5053 to use dnscrypt-proxy for upstream DNS
   dnscrypt-proxy:
-    build: ./dnscrypt-proxy
+    build: ./balena-pihole/dnscrypt-proxy
     volumes:
       - 'dnscrypt_config:/config'
     ports:
@@ -21,21 +21,21 @@ services:
   bluetooth-audio:
     network_mode: host
     restart: always
-    build: ./bluetooth-audio
+    build: ./balena-sound/bluetooth-audio
     privileged: true
     labels:
       io.balena.features.dbus: 1
     volumes:
       - bluetoothcache:/var/cache/bluetooth
   airplay:
-    build: ./airplay
+    build: ./balena-sound/airplay
     restart: always
     network_mode: host
     privileged: true
     labels:
       io.balena.features.dbus: 1
   spotify:
-    build: ./spotify
+    build: ./balena-sound/spotify
     restart: always
     network_mode: host
     privileged: true
